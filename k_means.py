@@ -1,10 +1,10 @@
 import numpy as np
 import random
 
-data = []
-dataRepre = []
-dataGroup = []
-groupCount = []
+data = []               # input data
+dataRepre = []          # representatives
+dataGroup = []          # 해당 데이터의 group number
+groupCount = []         # 해당 그룹의 데이터 개수
 
 # data의 group을 할당해주는 메소드
 def clusterAssign(k) :
@@ -31,7 +31,7 @@ def choiceRepre() :
         for i in range(len(data)) :
             if dataGroup[i] == groupIdx :
                 temp += data[i]
-        dataRepre[groupIdx] = temp / groupCount[groupIdx]
+        dataRepre[groupIdx] = temp / groupCount[groupIdx]   # update group representatives
     
 # 초기 설정 메소드
 def initRepre(k) :
@@ -48,7 +48,7 @@ def initRepre(k) :
 
 # main method
 def main() :
-    dataFile = open("inputVectors10.txt", 'r')
+    dataFile = open("inputVectors10000.txt", 'r')
     global data, dataRepre, dataGroup, groupCount
     
     while True :
@@ -63,26 +63,17 @@ def main() :
     initRepre(k)
 
     for i in range(iter) :
-        print("Representatives: ", end='')
-        for j in range(len(dataRepre)) :
-            if j == k - 1 :
-                print(dataRepre[j])
-                break
-            print(dataRepre[j], end=', ')
-        clusterAssign(k)
+        clusterAssign(k)                    # group assign
         print("vecters: ", groupCount)
         print()
-        choiceRepre()
-    
-    # for i in range(iter) :
-    #     clusterAssign(k)
-    #     choiceRepre()
-    # for i in range(len(dataRepre)) :
-    #         if i == k - 1 :
-    #             print(dataRepre[i])
-    #             break
-    #         print(dataRepre[i], end=', ')
-    # print("vecters: ", groupCount)
+        choiceRepre()                       # resetting representatives
+        
+    print("Representatives: ", end='')
+    for j in range(len(dataRepre)) :
+        if j == k - 1 :
+            print(dataRepre[j])
+            break
+        print(dataRepre[j], end=', ')
         
     dataFile.close()
 
